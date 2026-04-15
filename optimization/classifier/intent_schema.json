@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0.0",
+  "created": "2026-04-15",
+  "description": "Intent classification schema for request routing",
+  
+  "intents": {
+    "simple_query": {
+      "description": "Quick factual questions, greetings, status checks, simple commands",
+      "budget_tokens": 5000,
+      "model_tier": "small",
+      "memory_needed": false,
+      "skills_needed": [],
+      "examples": [
+        "What time is it?",
+        "Hello",
+        "Check gateway status",
+        "What's the weather?",
+        "Show me a summary",
+        "Quick question about X"
+      ],
+      "characteristics": [
+        "Single question",
+        "No code generation",
+        "No multi-step workflow",
+        "Short response expected"
+      ]
+    },
+    
+    "code_task": {
+      "description": "Code generation, debugging, refactoring, file operations",
+      "budget_tokens": 15000,
+      "model_tier": "medium",
+      "memory_needed": true,
+      "skills_needed": ["cursor-agent", "github", "file_operations"],
+      "examples": [
+        "Fix this bug in the code",
+        "Refactor this function",
+        "Add unit tests for this module",
+        "Create a new component",
+        "Review this PR",
+        "Optimize this algorithm"
+      ],
+      "characteristics": [
+        "Code manipulation required",
+        "File operations needed",
+        "Technical reasoning",
+        "Medium complexity"
+      ]
+    },
+    
+    "research_task": {
+      "description": "Deep research, analysis, multi-source information gathering",
+      "budget_tokens": 25000,
+      "model_tier": "medium",
+      "memory_needed": true,
+      "skills_needed": ["autoglm-websearch", "autoglm-browser-agent", "academic-deep-research"],
+      "examples": [
+        "Research this topic thoroughly",
+        "Compare these options for me",
+        "What are the best practices for X?",
+        "Analyze the market for Y",
+        "Find information about Z",
+        "Deep dive into this subject"
+      ],
+      "characteristics": [
+        "Web search needed",
+        "Multiple sources",
+        "Analysis required",
+        "Detailed report expected"
+      ]
+    },
+    
+    "complex_task": {
+      "description": "Multi-step workflows, complex reasoning, project planning, architecture",
+      "budget_tokens": 40000,
+      "model_tier": "large",
+      "memory_needed": true,
+      "skills_needed": ["cursor-agent", "github", "vercel-deploy", "autoglm-browser-agent"],
+      "examples": [
+        "Build this feature end-to-end",
+        "Plan the architecture for this project",
+        "Create a complete solution for X",
+        "Implement and deploy this system",
+        "Design and implement a new module"
+      ],
+      "characteristics": [
+        "Multiple steps required",
+        "Cross-skill coordination",
+        "Planning and execution",
+        "High complexity"
+      ]
+    }
+  },
+  
+  "domains": {
+    "software_engineering": {
+      "description": "Coding, development, DevOps, testing",
+      "related_skills": ["cursor-agent", "github", "vercel-deploy"],
+      "keywords": ["code", "bug", "feature", "deploy", "test", "refactor", "API", "git"]
+    },
+    "business_operations": {
+      "description": "Work360 business, sales, marketing, client management",
+      "related_skills": [],
+      "keywords": ["client", "sales", "marketing", "Work360", "business", "invoice", "proposal"]
+    },
+    "research": {
+      "description": "Information gathering, analysis, reports",
+      "related_skills": ["autoglm-websearch", "academic-deep-research"],
+      "keywords": ["research", "analyze", "compare", "find", "search", "investigate", "report"]
+    },
+    "communication": {
+      "description": "Messaging, emails, notifications, social media",
+      "related_skills": [],
+      "keywords": ["email", "message", "send", "notify", "WhatsApp", "Telegram", "social"]
+    },
+    "automation": {
+      "description": "Scheduled tasks, workflows, heartbeat, cron",
+      "related_skills": [],
+      "keywords": ["automate", "schedule", "cron", "heartbeat", "workflow", "routine"]
+    },
+    "general": {
+      "description": "General queries, status checks, simple questions",
+      "related_skills": [],
+      "keywords": ["what", "how", "when", "status", "check", "show", "list"]
+    }
+  },
+  
+  "priorities": {
+    "urgent": {
+      "level": 1,
+      "description": "Immediate attention required",
+      "examples": ["Gateway down", "Security alert", "Critical bug"]
+    },
+    "high": {
+      "level": 2,
+      "description": "Important, handle soon",
+      "examples": ["Feature request", "Bug fix", "Client inquiry"]
+    },
+    "medium": {
+      "level": 3,
+      "description": "Normal priority",
+      "examples": ["Code review", "Research task", "Documentation"]
+    },
+    "low": {
+      "level": 4,
+      "description": "Can wait, background tasks",
+      "examples": ["Cleanup", "Optimization", "Minor improvement"]
+    }
+  },
+  
+  "routing_rules": {
+    "default_intent": "simple_query",
+    "default_domain": "general",
+    "default_priority": "medium",
+    "fallback_budget": 20000,
+    "max_classification_tokens": 500
+  },
+  
+  "skill_mapping": {
+    "autoglm-browser-agent": {
+      "load_priority": 1,
+      "tier": "hot",
+      "token_estimate": 3000
+    },
+    "autoglm-websearch": {
+      "load_priority": 1,
+      "tier": "hot",
+      "token_estimate": 2000
+    },
+    "github": {
+      "load_priority": 2,
+      "tier": "warm",
+      "token_estimate": 2500
+    },
+    "cursor-agent": {
+      "load_priority": 2,
+      "tier": "warm",
+      "token_estimate": 3500
+    },
+    "vercel-deploy": {
+      "load_priority": 3,
+      "tier": "cold",
+      "token_estimate": 2000
+    },
+    "academic-deep-research": {
+      "load_priority": 3,
+      "tier": "cold",
+      "token_estimate": 4000
+    }
+  }
+}

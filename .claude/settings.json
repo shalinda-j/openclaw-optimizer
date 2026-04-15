@@ -1,0 +1,60 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(python *)"
+    ],
+    "deny": []
+  },
+  "contextOptimization": {
+    "enabled": true,
+    "maxMemoryLines": 200,
+    "lazyLoadSkills": true,
+    "budgetEnforcement": true,
+    "defaultBudget": 15000,
+    "tiers": {
+      "simple": 5000,
+      "code": 15000,
+      "research": 25000,
+      "complex": 40000
+    }
+  },
+  "autoMemory": {
+    "enabled": true,
+    "maxLines": 200,
+    "savePath": ".claude/memory/"
+  },
+  "skillCache": {
+    "maxSize": 5,
+    "ttlSeconds": 300,
+    "hotSkills": ["autoglm-browser-agent", "autoglm-websearch"],
+    "warmSkills": ["github", "cursor-agent", "vercel-deploy"]
+  },
+  "costTracking": {
+    "enabled": true,
+    "dailyBudgetUsd": 10.00,
+    "monthlyBudgetUsd": 150.00,
+    "alertThresholds": {
+      "hourlyWarning": 1.00,
+      "hourlyCritical": 5.00,
+      "dailyWarning": 8.00,
+      "dailyCritical": 12.00
+    }
+  },
+  "hooks": {
+    "beforeSession": [
+      "/optimize"
+    ],
+    "afterTask": [
+      "/compact"
+    ],
+    "afterSession": [
+      "/token-report"
+    ]
+  },
+  "claudeMdExcludes": [],
+  "settingsSources": ["project", "user"]
+}

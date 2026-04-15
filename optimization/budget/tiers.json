@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "created": "2026-04-15",
+  "description": "Token budget tiers for request execution",
+  
+  "global_limits": {
+    "max_total_tokens": 50000,
+    "min_total_tokens": 1000,
+    "alert_threshold": 0.80,
+    "overflow_strategy": "compress"
+  },
+  
+  "tiers": {
+    "simple": {
+      "name": "Simple Query Path",
+      "total_budget": 5000,
+      "allocation": {
+        "system_prompt": 1000,
+        "memory_context": 1000,
+        "skills_loaded": 0,
+        "classification": 500,
+        "response_buffer": 2500
+      },
+      "model": "small",
+      "max_response_tokens": 2000,
+      "cache_allowed": true,
+      "parallel_skills": false
+    },
+    
+    "code": {
+      "name": "Code Task Path",
+      "total_budget": 15000,
+      "allocation": {
+        "system_prompt": 2000,
+        "memory_context": 3000,
+        "skills_loaded": 5000,
+        "classification": 500,
+        "response_buffer": 4500
+      },
+      "model": "medium",
+      "max_response_tokens": 4000,
+      "cache_allowed": false,
+      "parallel_skills": true
+    },
+    
+    "research": {
+      "name": "Research Task Path",
+      "total_budget": 25000,
+      "allocation": {
+        "system_prompt": 2000,
+        "memory_context": 5000,
+        "skills_loaded": 8000,
+        "classification": 500,
+        "response_buffer": 9500
+      },
+      "model": "medium",
+      "max_response_tokens": 8000,
+      "cache_allowed": true,
+      "parallel_skills": true
+    },
+    
+    "complex": {
+      "name": "Complex Task Path",
+      "total_budget": 40000,
+      "allocation": {
+        "system_prompt": 3000,
+        "memory_context": 8000,
+        "skills_loaded": 12000,
+        "classification": 500,
+        "response_buffer": 16500
+      },
+      "model": "large",
+      "max_response_tokens": 12000,
+      "cache_allowed": false,
+      "parallel_skills": true
+    },
+    
+    "unlimited": {
+      "name": "Unlimited/Admin Path",
+      "total_budget": 80000,
+      "allocation": {
+        "system_prompt": 5000,
+        "memory_context": 15000,
+        "skills_loaded": 20000,
+        "classification": 500,
+        "response_buffer": 39500
+      },
+      "model": "large",
+      "max_response_tokens": 20000,
+      "cache_allowed": false,
+      "parallel_skills": true,
+      "requires_authorization": true
+    }
+  },
+  
+  "overflow_handling": {
+    "strategies": {
+      "compress": {
+        "description": "Compress context before execution",
+        "priority_order": ["classification", "system_prompt", "skills_loaded", "memory_context", "response_buffer"],
+        "min_keep_ratio": 0.6
+      },
+      "truncate": {
+        "description": "Truncate oldest/least relevant content",
+        "priority_order": ["memory_context", "skills_loaded", "response_buffer"],
+        "min_keep_ratio": 0.5
+      },
+      "chunk": {
+        "description": "Split into chunks, load on demand",
+        "chunk_size": 5000,
+        "max_chunks": 5
+      },
+      "reject": {
+        "description": "Reject request if over budget",
+        "message": "Request exceeds maximum token budget. Please simplify or split into smaller requests."
+      }
+    },
+    "default_strategy": "compress",
+    "fallback_strategy": "truncate"
+  },
+  
+  "real_time_limits": {
+    "max_requests_per_minute": 10,
+    "max_tokens_per_minute": 100000,
+    "max_requests_per_hour": 100,
+    "max_tokens_per_hour": 500000
+  },
+  
+  "cost_tracking": {
+    "price_per_1k_tokens": {
+      "input": 0.003,
+      "output": 0.015
+    },
+    "daily_budget_usd": 10.00,
+    "monthly_budget_usd": 150.00,
+    "alert_thresholds": {
+      "hourly_cost_warning": 1.00,
+      "hourly_cost_critical": 5.00,
+      "daily_cost_warning": 8.00,
+      "daily_cost_critical": 12.00
+    }
+  },
+  
+  "optimization_targets": {
+    "target_avg_tokens": 15000,
+    "target_cost_per_request": 0.05,
+    "target_cache_hit_rate": 0.60,
+    "target_response_time_ms": 2000
+  }
+}

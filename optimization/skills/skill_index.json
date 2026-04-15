@@ -1,0 +1,320 @@
+{
+  "schema_version": "1.0.0",
+  "created": "2026-04-15",
+  "description": "Lightweight skill index for lazy loading",
+  
+  "tier_classification": {
+    "hot": {
+      "description": "Always loaded, high frequency use",
+      "cache_policy": "permanent",
+      "max_skills": 3,
+      "skills": ["autoglm-browser-agent", "autoglm-websearch"]
+    },
+    "warm": {
+      "description": "LRU cached, medium frequency",
+      "cache_policy": "lru_5min",
+      "max_skills": 5,
+      "skills": ["github", "cursor-agent", "vercel-deploy", "autoglm-image-recognition"]
+    },
+    "cold": {
+      "description": "Load on demand only",
+      "cache_policy": "load_on_demand",
+      "skills": ["academic-deep-research", "us-stock-analysis", "weather", "gemini", "news-aggregator", "youtube-watcher", "video-transcript-downloader", "reddit-readonly"]
+    }
+  },
+  
+  "skills": {
+    "autoglm-browser-agent": {
+      "tier": "hot",
+      "priority": 1,
+      "domains": ["web_automation", "browsing", "research"],
+      "token_estimate": 3000,
+      "load_time_estimate_ms": 200,
+      "use_frequency": "high",
+      "depends_on": [],
+      "description": "Browser automation for web tasks",
+      "keywords": ["browser", "web", "website", "navigate", "click", "scroll", "login", "browse", "open"]
+    },
+    
+    "autoglm-websearch": {
+      "tier": "hot",
+      "priority": 1,
+      "domains": ["research", "information", "search"],
+      "token_estimate": 2000,
+      "load_time_estimate_ms": 100,
+      "use_frequency": "high",
+      "depends_on": [],
+      "description": "Web search capabilities",
+      "keywords": ["search", "find", "lookup", "research", "google", "web", "information"]
+    },
+    
+    "github": {
+      "tier": "warm",
+      "priority": 2,
+      "domains": ["software_engineering", "version_control"],
+      "token_estimate": 2500,
+      "load_time_estimate_ms": 150,
+      "use_frequency": "medium",
+      "depends_on": [],
+      "description": "GitHub CLI for PR/issues",
+      "keywords": ["github", "PR", "pull request", "issue", "repo", "repository", "commit", "branch", "merge", "gh"]
+    },
+    
+    "cursor-agent": {
+      "tier": "warm",
+      "priority": 2,
+      "domains": ["software_engineering", "coding"],
+      "token_estimate": 3500,
+      "load_time_estimate_ms": 300,
+      "use_frequency": "medium",
+      "depends_on": [],
+      "description": "Cursor CLI for coding tasks",
+      "keywords": ["code", "coding", "develop", "program", "write", "create", "build", "implement", "refactor", "debug"]
+    },
+    
+    "vercel-deploy": {
+      "tier": "warm",
+      "priority": 3,
+      "domains": ["software_engineering", "deployment"],
+      "token_estimate": 2000,
+      "load_time_estimate_ms": 200,
+      "use_frequency": "medium",
+      "depends_on": [],
+      "description": "Vercel deployment automation",
+      "keywords": ["deploy", "deployment", "vercel", "publish", "release", "production", "preview"]
+    },
+    
+    "autoglm-image-recognition": {
+      "tier": "warm",
+      "priority": 2,
+      "domains": ["image_analysis", "vision"],
+      "token_estimate": 2500,
+      "load_time_estimate_ms": 150,
+      "use_frequency": "medium",
+      "depends_on": ["autoglm-file-upload"],
+      "description": "Image recognition and analysis",
+      "keywords": ["image", "photo", "picture", "analyze", "recognize", "OCR", "describe", "visual"]
+    },
+    
+    "autoglm-file-upload": {
+      "tier": "warm",
+      "priority": 2,
+      "domains": ["file_handling", "upload"],
+      "token_estimate": 1500,
+      "load_time_estimate_ms": 100,
+      "use_frequency": "medium",
+      "depends_on": [],
+      "description": "File upload to get URLs",
+      "keywords": ["upload", "file", "attachment", "image", "document"]
+    },
+    
+    "autoglm-generate-image": {
+      "tier": "cold",
+      "priority": 4,
+      "domains": ["image_generation", "creative"],
+      "token_estimate": 2000,
+      "load_time_estimate_ms": 200,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Text-to-image generation",
+      "keywords": ["generate", "create", "image", "picture", "art", "draw", "illustration"]
+    },
+    
+    "academic-deep-research": {
+      "tier": "cold",
+      "priority": 3,
+      "domains": ["research", "academic"],
+      "token_estimate": 4000,
+      "load_time_estimate_ms": 400,
+      "use_frequency": "low",
+      "depends_on": ["autoglm-websearch"],
+      "description": "Academic research with citations",
+      "keywords": ["academic", "research", "literature", "cite", "APA", "study", "paper", "journal"]
+    },
+    
+    "us-stock-analysis": {
+      "tier": "cold",
+      "priority": 4,
+      "domains": ["finance", "analysis"],
+      "token_estimate": 3000,
+      "load_time_estimate_ms": 300,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "US stock analysis",
+      "keywords": ["stock", "finance", "invest", "market", "ticker", "AAPL", "TSLA", "NVDA", "analysis"]
+    },
+    
+    "weather": {
+      "tier": "cold",
+      "priority": 5,
+      "domains": ["information", "general"],
+      "token_estimate": 1000,
+      "load_time_estimate_ms": 100,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Weather information",
+      "keywords": ["weather", "forecast", "temperature", "rain", "sunny", "cloudy"]
+    },
+    
+    "gemini": {
+      "tier": "cold",
+      "priority": 5,
+      "domains": ["general", "assistant"],
+      "token_estimate": 1500,
+      "load_time_estimate_ms": 100,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Gemini CLI for Q&A",
+      "keywords": ["gemini", "ask", "question", "summarize", "generate"]
+    },
+    
+    "news-aggregator": {
+      "tier": "cold",
+      "priority": 4,
+      "domains": ["information", "news"],
+      "token_estimate": 2000,
+      "load_time_estimate_ms": 200,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "News aggregation",
+      "keywords": ["news", "headline", "update", "brief", "current", "today"]
+    },
+    
+    "news-summary": {
+      "tier": "cold",
+      "priority": 4,
+      "domains": ["information", "news"],
+      "token_estimate": 1500,
+      "load_time_estimate_ms": 150,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "News summaries",
+      "keywords": ["news", "summary", "brief", "briefing", "daily"]
+    },
+    
+    "youtube-watcher": {
+      "tier": "cold",
+      "priority": 4,
+      "domains": ["media", "video"],
+      "token_estimate": 2000,
+      "load_time_estimate_ms": 200,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "YouTube transcript extraction",
+      "keywords": ["youtube", "video", "transcript", "watch", "summarize"]
+    },
+    
+    "video-transcript-downloader": {
+      "tier": "cold",
+      "priority": 4,
+      "domains": ["media", "download"],
+      "token_estimate": 2500,
+      "load_time_estimate_ms": 250,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Download videos and transcripts",
+      "keywords": ["download", "video", "transcript", "subtitle", "yt-dlp", "audio"]
+    },
+    
+    "reddit-readonly": {
+      "tier": "cold",
+      "priority": 5,
+      "domains": ["social", "information"],
+      "token_estimate": 1500,
+      "load_time_estimate_ms": 100,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Reddit browsing",
+      "keywords": ["reddit", "subreddit", "post", "comment", "browse"]
+    },
+    
+    "daily-ai-news": {
+      "tier": "cold",
+      "priority": 4,
+      "domains": ["information", "AI"],
+      "token_estimate": 2000,
+      "load_time_estimate_ms": 200,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Daily AI news briefing",
+      "keywords": ["AI", "news", "daily", "briefing", "update", "development"]
+    },
+    
+    "autoglm-open-link": {
+      "tier": "cold",
+      "priority": 5,
+      "domains": ["web", "content"],
+      "token_estimate": 1500,
+      "load_time_estimate_ms": 150,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Open and extract webpage content",
+      "keywords": ["open", "link", "url", "webpage", "article", "extract", "read"]
+    },
+    
+    "autoglm-search-image": {
+      "tier": "cold",
+      "priority": 5,
+      "domains": ["image", "search"],
+      "token_estimate": 1500,
+      "load_time_estimate_ms": 150,
+      "use_frequency": "low",
+      "depends_on": [],
+      "description": "Image search",
+      "keywords": ["search", "image", "find", "picture", "photo"]
+    },
+    
+    "sonoscli": {
+      "tier": "cold",
+      "priority": 6,
+      "domains": ["audio", "home"],
+      "token_estimate": 1500,
+      "load_time_estimate_ms": 100,
+      "use_frequency": "very_low",
+      "depends_on": [],
+      "description": "Sonos speaker control",
+      "keywords": ["sonos", "speaker", "audio", "play", "volume", "music"]
+    },
+    
+    "adcp-advertising": {
+      "tier": "cold",
+      "priority": 6,
+      "domains": ["marketing", "ads"],
+      "token_estimate": 3000,
+      "load_time_estimate_ms": 300,
+      "use_frequency": "very_low",
+      "depends_on": [],
+      "description": "Advertising campaign automation",
+      "keywords": ["ad", "advertising", "campaign", "marketing", "facebook", "google", "media"]
+    }
+  },
+  
+  "domain_skill_mapping": {
+    "software_engineering": ["cursor-agent", "github", "vercel-deploy"],
+    "business_operations": [],
+    "research": ["autoglm-websearch", "autoglm-browser-agent", "academic-deep-research"],
+    "communication": [],
+    "automation": [],
+    "general": ["autoglm-websearch"],
+    "web_automation": ["autoglm-browser-agent"],
+    "image_analysis": ["autoglm-image-recognition"],
+    "finance": ["us-stock-analysis"]
+  },
+  
+  "preload_patterns": {
+    "after_classification": {
+      "code_task": ["cursor-agent", "github"],
+      "research_task": ["autoglm-websearch", "autoglm-browser-agent"],
+      "complex_task": ["cursor-agent", "github"]
+    },
+    "on_startup": ["autoglm-browser-agent", "autoglm-websearch"],
+    "on_heartbeat": ["github"]
+  },
+  
+  "cache_config": {
+    "lru_max_size": 5,
+    "lru_ttl_seconds": 300,
+    "hot_always_loaded": true,
+    "warm_preload_on_domain_match": true
+  }
+}
